@@ -20,13 +20,13 @@ d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(55): warning C4477: “pri
 d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(55): warning C4313: “printf”: 格式字符串中的“%p”与“ULONG”类型的参数 1 冲突
 d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(57): warning C4477: “printf”: 格式字符串“%p”需要类型“void *”的参数，但可变参数 1 拥有了类型“ACCESS_MASK”
 d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(57): warning C4313: “printf”: 格式字符串中的“%p”与“ACCESS_MASK”类型的参数 1 冲突
-d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(76): warning C4477: “printf”: 格式字符串“%p”需要类型“void *”的参数，但可变参数 1 拥有了类型“int”
-d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(76): warning C4313: “printf”: 格式字符串中的“%p”与“int”类型的参数 1 冲突
-d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(83): warning C4477: “printf”: 格式字符串“%p”需要类型“void *”的参数，但可变参数 1 拥有了类型“int”
-d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(83): warning C4313: “printf”: 格式字符串中的“%p”与“int”类型的参数 1 冲突
-d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(86): warning C4477: “printf”: 格式字符串“%p”需要类型“void *”的参数，但可变参数 1 拥有了类型“int”
-d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(86): warning C4313: “printf”: 格式字符串中的“%p”与“int”类型的参数 1 冲突
-d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(90): warning C4477: “printf”: 格式字符串“%p”需要类型“void *”的参数，但可变参数 1 拥有了类型“int”
-d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(90): warning C4313: “printf”: 格式字符串中的“%p”与“int”类型的参数 1 冲突
+d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(84): warning C4477: “printf”: 格式字符串“%p”需要类型“void *”的参数，但可变参数 1 拥有了类型“int”
+d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(84): warning C4313: “printf”: 格式字符串中的“%p”与“int”类型的参数 1 冲突
+d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(91): warning C4477: “printf”: 格式字符串“%p”需要类型“void *”的参数，但可变参数 1 拥有了类型“int”
+d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(91): warning C4313: “printf”: 格式字符串中的“%p”与“int”类型的参数 1 冲突
+d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(94): warning C4477: “printf”: 格式字符串“%p”需要类型“void *”的参数，但可变参数 1 拥有了类型“int”
+d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(94): warning C4313: “printf”: 格式字符串中的“%p”与“int”类型的参数 1 冲突
+d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(98): warning C4477: “printf”: 格式字符串“%p”需要类型“void *”的参数，但可变参数 1 拥有了类型“int”
+d:\work\git\powerreadwrite\powerreadwriteapp\main.cpp(98): warning C4313: “printf”: 格式字符串中的“%p”与“int”类型的参数 1 冲突
   正在生成代码...
   PowerReadWriteApp.vcxproj -> D:\work\Git\PowerReadWrite\x64\Debug\PowerReadWriteApp.exe

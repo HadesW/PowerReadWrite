@@ -5,6 +5,7 @@
 
 #define DEVICE_LINKNAME _T("\\??\\PowerLinkName")
 #define IOCTL_POWER_SET_PROCESS 0x801
+#define IOCTL_POWER_GRANT_ACCESS 0x802
 
 VOID GetSysFullPath(PTCHAR wsSysFileName);
 

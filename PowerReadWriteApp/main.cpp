@@ -48,7 +48,7 @@ int main()
 	// 填充结构体
 	HANDLE hProcess = NULL;
 	SET_PROCESS_DATA stSetProcessData = { 0 };
-	stSetProcessData.ulPid = GetProcessIdByName((const PTCHAR)_T("crossfire.exe"));
+	stSetProcessData.ulPid = GetProcessIdByName((const PTCHAR)_T("calc.exe"));
 	stSetProcessData.ulAccess = PROCESS_QUERY_LIMITED_INFORMATION;
 	stSetProcessData.pHandleProcess = &hProcess;
 
@@ -61,6 +61,14 @@ int main()
 	IoCtrlDriver(IOCTL_POWER_SET_PROCESS, &stSetProcessData, sizeof(stSetProcessData), &stSetProcessData, sizeof(stSetProcessData), &dwRealRetByte);
 
 	PRINTMSG(hProcess, "OpenProcess Handle");
+
+	// 打开句柄权限不够的话就再提升一次权限
+	HANDLE_GRANT_ACCESS_DATA stHandleAccessData = { 0 };
+	stHandleAccessData.hProcess = hProcess;
+	stHandleAccessData.ulPid = stSetProcessData.ulPid;
+	stHandleAccessData.ulAccess = PROCESS_ALL_ACCESS;
+	IoCtrlDriver(IOCTL_POWER_GRANT_ACCESS, &stHandleAccessData, sizeof(stHandleAccessData), &stHandleAccessData, sizeof(stHandleAccessData), &dwRealRetByte);
+
 
 	HANDLE handle = hProcess;
 

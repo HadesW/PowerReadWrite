@@ -44,6 +44,14 @@ NTSTATUS DeviceControlDispatch(
 			status = STATUS_INFO_LENGTH_MISMATCH;
 	}
 	break;
+	case IOCTL_POWER_GRANT_ACCESS:
+	{
+		if (ulInputSize >= sizeof(HANDLE_GRANT_ACCESS_DATA) && pIoBuffer)
+			status = PowerGrantAccess((PHANDLE_GRANT_ACCESS_DATA)pIoBuffer);
+		else
+			status = STATUS_INFO_LENGTH_MISMATCH;
+	}
+	break;
 	default:
 		LOGDEBUG(ulIoControlCode, "Unknown IRP_MJ_DEVICE_CONTROL");
 		status = STATUS_INVALID_PARAMETER;
