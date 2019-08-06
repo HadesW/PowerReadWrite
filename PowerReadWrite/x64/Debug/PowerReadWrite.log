@@ -1,0 +1,10 @@
+﻿  Building 'PowerReadWrite' with toolset 'WindowsKernelModeDriver10.0' and the 'Desktop' target platform.
+  dispatch.c
+  function.c
+d:\work\git\powerreadwrite\powerreadwrite\function.c(21): warning C4022: “ProbeForRead”: 指针与实参 1 不匹配
+d:\work\git\powerreadwrite\powerreadwrite\function.c(29): warning C4022: “PsLookupProcessByProcessId”: 指针与实参 1 不匹配
+  main.c
+  正在生成代码...
+  PowerReadWrite.vcxproj -> D:\work\Git\PowerReadWrite\x64\Debug\PowerReadWrite.sys
+  Inf2Cat task was skipped as there were no inf files to process
+  
