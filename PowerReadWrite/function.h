@@ -27,13 +27,20 @@ typedef struct _OPENPROCESS_DATA
 	PHANDLE pHandleProcess;//´«³ö
 }OPENPROCESS_DATA,*POPENPROCESS_DATA;
 
-
 typedef struct _HANDLE_GRANT_ACCESS_DATA
 {
 	ULONG ulPid;
 	ACCESS_MASK ulAccess;
 	HANDLE hProcess;
 }HANDLE_GRANT_ACCESS_DATA, *PHANDLE_GRANT_ACCESS_DATA;
+
+typedef struct _READ_WRITE_MEMORY_DATA
+{
+	ULONG ulPid;
+	PVOID pAddress;
+	ULONG ulSize;
+	PVOID pBuffer;
+}READ_WRITE_MEMORY_DATA,*PREAD_WRITE_MEMORY_DATA;
 
 
 typedef union _EXHANDLE
@@ -135,7 +142,6 @@ typedef BOOLEAN(*typfnExEnumHandleTableWin10)(
 	OUT PHANDLE Handle
 	);
 
-
 NTKERNELAPI
 VOID
 FASTCALL
@@ -144,5 +150,18 @@ ExfUnblockPushLock(
 	IN OUT PVOID WaitBlock
 );
 
+NTSTATUS
+MmCopyVirtualMemory(
+	IN PEPROCESS FromProcess,
+	IN CONST VOID *FromAddress,
+	IN PEPROCESS ToProcess,
+	OUT PVOID ToAddress,
+	IN SIZE_T BufferSize,
+	IN KPROCESSOR_MODE PreviousMode,
+	OUT PSIZE_T NumberOfBytesCopied
+);
+
 NTSTATUS PowerOpenProcess(__in POPENPROCESS_DATA pData);
 NTSTATUS PowerGrantAccess(__in PHANDLE_GRANT_ACCESS_DATA pData);
+NTSTATUS PowerReadVirtualMemory(__in PREAD_WRITE_MEMORY_DATA pData);
+NTSTATUS PowerWriteVirtualMemory(__in PREAD_WRITE_MEMORY_DATA pData);

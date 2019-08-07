@@ -4,7 +4,7 @@
 OPENPROCESS_DATA g_stOpenProcessData = { 0 };
 HANDLE g_hProcess = NULL;
 
-NTSTATUS PowerOpenProcess(POPENPROCESS_DATA pData)
+NTSTATUS PowerOpenProcess(__in POPENPROCESS_DATA pData)
 {
 	LOGDEBUG(PowerOpenProcess, "PowerOpenProcess Called");
 
@@ -123,7 +123,6 @@ BOOLEAN HandleCallbackWin10(
 }
 
 
-
 NTSTATUS PowerGrantAccess(__in PHANDLE_GRANT_ACCESS_DATA pData)
 {
 	LOGDEBUG(PowerGrantAccess, "PowerGrantAccess Called");
@@ -190,6 +189,64 @@ NTSTATUS PowerGrantAccess(__in PHANDLE_GRANT_ACCESS_DATA pData)
 
 	if (pEprocess)
 		ObDereferenceObject(pEprocess);
+
+	return status;
+}
+
+NTSTATUS PowerReadVirtualMemory(__in PREAD_WRITE_MEMORY_DATA pData)
+{
+	NTSTATUS status=STATUS_UNSUCCESSFUL;
+	SIZE_T NumberOfBytes=NULL;
+	PEPROCESS pEprocess=NULL;
+
+	// check address
+	__try
+	{
+		ProbeForWrite(pData->pBuffer, pData->ulSize, sizeof(CHAR));
+		ProbeForRead(pData->ulPid, sizeof(ULONG), sizeof(ULONG));
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		return GetExceptionCode();
+	}
+	// read
+	status = PsLookupProcessByProcessId(pData->ulPid, &pEprocess);
+	if (NT_SUCCESS(status))
+	{
+		status = MmCopyVirtualMemory(pEprocess, pData->pAddress, PsGetCurrentProcess(), pData->pBuffer, pData->ulSize, KernelMode, &NumberOfBytes);
+
+		if (pEprocess)
+			ObDereferenceObject(pEprocess);
+	}
+
+	return status;
+}
+
+NTSTATUS PowerWriteVirtualMemory(__in PREAD_WRITE_MEMORY_DATA pData)
+{
+	NTSTATUS status = STATUS_UNSUCCESSFUL;
+	SIZE_T NumberOfBytes = NULL;
+	PEPROCESS pEprocess = NULL;
+
+	// check address
+	__try
+	{
+		ProbeForRead(pData->pAddress, pData->ulSize, sizeof(CHAR));
+		ProbeForRead(pData->ulPid, sizeof(ULONG), sizeof(ULONG));
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		return GetExceptionCode();
+	}
+	// write
+	status = PsLookupProcessByProcessId(pData->ulPid, &pEprocess);
+	if (NT_SUCCESS(status))
+	{
+		status = MmCopyVirtualMemory(PsGetCurrentProcess(), pData->pBuffer, pEprocess,pData->pAddress,pData->ulSize,KernelMode,&NumberOfBytes);
+
+		if (pEprocess)
+			ObDereferenceObject(pEprocess);
+	}
 
 	return status;
 }

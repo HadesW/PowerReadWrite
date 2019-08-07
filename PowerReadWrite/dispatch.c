@@ -52,6 +52,22 @@ NTSTATUS DeviceControlDispatch(
 			status = STATUS_INFO_LENGTH_MISMATCH;
 	}
 	break;
+	case IOCTL_POWER_READ_MEMORY:
+	{
+		if (ulInputSize >= sizeof(READ_WRITE_MEMORY_DATA) && pIoBuffer)
+			status = PowerReadVirtualMemory((PREAD_WRITE_MEMORY_DATA)pIoBuffer);
+		else
+			status = STATUS_INFO_LENGTH_MISMATCH;
+	}
+	break;
+	case IOCTL_POWER_WRITE_MEMORY:
+	{
+		if (ulInputSize >= sizeof(READ_WRITE_MEMORY_DATA) && pIoBuffer)
+			status = PowerWriteVirtualMemory((PREAD_WRITE_MEMORY_DATA)pIoBuffer);
+		else
+			status = STATUS_INFO_LENGTH_MISMATCH;
+	}
+	break;
 	default:
 		LOGDEBUG(ulIoControlCode, "Unknown IRP_MJ_DEVICE_CONTROL");
 		status = STATUS_INVALID_PARAMETER;

@@ -28,6 +28,17 @@ typedef struct _HANDLE_GRANT_ACCESS_DATA
 	HANDLE hProcess;
 }HANDLE_GRANT_ACCESS_DATA, *PHANDLE_GRANT_ACCESS_DATA;
 
+typedef struct _READ_WRITE_MEMORY_DATA
+{
+	ULONG ulPid;						//要读取或者写入的进程id
+	PVOID pAddress;					//要读取或者写入的开始地址
+	ULONG ulSize;						//要读取或者写入的大小
+	PVOID pBuffer;					//读取后保存数据的地址，或者写入前来源数据的地址
+}READ_WRITE_MEMORY_DATA, *PREAD_WRITE_MEMORY_DATA;
+
+
+
+
 //__kernel_entry NTSTATUS NtQueryInformationProcess(
 //	IN HANDLE           ProcessHandle,
 //	IN PROCESSINFOCLASS ProcessInformationClass,

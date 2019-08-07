@@ -1,7 +1,35 @@
 #include "main.h"
 
 
+BOOL PowerReadMemory(__in ULONG ulPid, __in PVOID pStartAddress, __in ULONG ulSize, __out PVOID pSaveAddress)
+{
+	READ_WRITE_MEMORY_DATA pData = { 0 };
+	pData.ulPid = ulPid;
+	pData.pAddress = pStartAddress;
+	pData.ulSize = ulSize;
+	pData.pBuffer = pSaveAddress;
 
+	DWORD dwRealRetByte = 0;
+	if (IoCtrlDriver(IOCTL_POWER_READ_MEMORY, &pData, sizeof(pData), &pData, sizeof(pData), &dwRealRetByte))
+		return TRUE;
+	else
+		return FALSE;
+}
+
+BOOL PowerWriteMemory(__in ULONG ulPid, __in PVOID pStartAddress, __in ULONG ulSize, __out PVOID pWriteBuffer)
+{
+	READ_WRITE_MEMORY_DATA pData = { 0 };
+	pData.ulPid = ulPid;
+	pData.pAddress = pStartAddress;
+	pData.ulSize = ulSize;
+	pData.pBuffer = pWriteBuffer;
+
+	DWORD dwRealRetByte = 0;
+	if (IoCtrlDriver(IOCTL_POWER_WRITE_MEMORY, &pData, sizeof(pData), &pData, sizeof(pData), &dwRealRetByte))
+		return TRUE;
+	else
+		return FALSE;
+}
 
 // 通过进程名获取PID
 DWORD GetProcessIdByName(__in const PTCHAR wsProcessName)
@@ -56,6 +84,20 @@ int main()
 	PRINTMSG(hProcess, "SetProcess Handle");
 	PRINTMSG(stSetProcessData.ulAccess, "SetProcess Access");
 
+	////这里是另一种读写方式，用的话直接去掉注释
+	//ULONG ulBuffer;
+	//PowerReadMemory(GetProcessIdByName((const PTCHAR)_T("calc.exe")), (PVOID)0xFF740000, 4, &ulBuffer);
+	//PRINTMSG(ulBuffer, "PowerReadMemory Buffer");
+	//PowerWriteMemory(GetProcessIdByName((const PTCHAR)_T("calc.exe")), (PVOID)0xFF7B3000, 4, &ulBuffer);
+	//PowerReadMemory(GetProcessIdByName((const PTCHAR)_T("calc.exe")), (PVOID)0xFF7B3000, 4, &ulBuffer);
+	//PRINTMSG(ulBuffer, "PowerWriteMemory Buffer");
+	//PRINTMSG(POWER_SUCCESS, "Please press any key UnloadDriver");
+	//getchar();
+	//CloseDevice();
+	//UnloadDriver();
+	//getchar();
+	//return 0;
+
 	// 发送数据
 	DWORD dwRealRetByte = 0;
 	IoCtrlDriver(IOCTL_POWER_SET_PROCESS, &stSetProcessData, sizeof(stSetProcessData), &stSetProcessData, sizeof(stSetProcessData), &dwRealRetByte);
@@ -65,7 +107,7 @@ int main()
 	// 打开句柄权限不够的话就再提升一次权限
 	HANDLE_GRANT_ACCESS_DATA stHandleAccessData = { 0 };
 	stHandleAccessData.hProcess = hProcess;
-	stHandleAccessData.ulPid = stSetProcessData.ulPid;
+	stHandleAccessData.ulPid = GetCurrentProcessId();
 	stHandleAccessData.ulAccess = PROCESS_ALL_ACCESS;
 	IoCtrlDriver(IOCTL_POWER_GRANT_ACCESS, &stHandleAccessData, sizeof(stHandleAccessData), &stHandleAccessData, sizeof(stHandleAccessData), &dwRealRetByte);
 
@@ -89,7 +131,11 @@ int main()
 		!ReadProcessMemory(handle, process_parameters.CommandLine.Buffer, buffer, process_parameters.CommandLine.Length, nullptr))
 	{
 		PRINTMSG(POWER_UNSUCCESSFUL, "ReadProcessMemory failed");
-	};
+	}
+	else
+	{
+		PRINTMSG(POWER_SUCCESS, "ReadProcessMemory Success");
+	}
 
 	printf("[Power]->[0x%p]->CommandLine: %ws", POWER_SUCCESS, buffer);
 	printf("\n");
