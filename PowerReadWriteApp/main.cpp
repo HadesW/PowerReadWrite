@@ -1,7 +1,7 @@
 #include "main.h"
 
 
-BOOL PowerReadMemory(__in ULONG ulPid, __in PVOID pStartAddress, __in ULONG ulSize, __out PVOID pSaveAddress)
+BOOL PowerReadMemoryC(__in ULONG ulPid, __in PVOID pStartAddress, __in ULONG ulSize, __out PVOID pSaveAddress)
 {
 	READ_WRITE_MEMORY_DATA pData = { 0 };
 	pData.ulPid = ulPid;
@@ -10,13 +10,13 @@ BOOL PowerReadMemory(__in ULONG ulPid, __in PVOID pStartAddress, __in ULONG ulSi
 	pData.pBuffer = pSaveAddress;
 
 	DWORD dwRealRetByte = 0;
-	if (IoCtrlDriver(IOCTL_POWER_READ_MEMORY, &pData, sizeof(pData), &pData, sizeof(pData), &dwRealRetByte))
+	if (IoCtrlDriver(IOCTL_POWER_READ_MEMORY_C, &pData, sizeof(pData), &pData, sizeof(pData), &dwRealRetByte))
 		return TRUE;
 	else
 		return FALSE;
 }
 
-BOOL PowerWriteMemory(__in ULONG ulPid, __in PVOID pStartAddress, __in ULONG ulSize, __out PVOID pWriteBuffer)
+BOOL PowerWriteMemoryC(__in ULONG ulPid, __in PVOID pStartAddress, __in ULONG ulSize, __out PVOID pWriteBuffer)
 {
 	READ_WRITE_MEMORY_DATA pData = { 0 };
 	pData.ulPid = ulPid;
@@ -25,7 +25,7 @@ BOOL PowerWriteMemory(__in ULONG ulPid, __in PVOID pStartAddress, __in ULONG ulS
 	pData.pBuffer = pWriteBuffer;
 
 	DWORD dwRealRetByte = 0;
-	if (IoCtrlDriver(IOCTL_POWER_WRITE_MEMORY, &pData, sizeof(pData), &pData, sizeof(pData), &dwRealRetByte))
+	if (IoCtrlDriver(IOCTL_POWER_WRITE_MEMORY_C, &pData, sizeof(pData), &pData, sizeof(pData), &dwRealRetByte))
 		return TRUE;
 	else
 		return FALSE;
@@ -86,10 +86,10 @@ int main()
 
 	////这里是另一种读写方式，用的话直接去掉注释
 	//ULONG ulBuffer;
-	//PowerReadMemory(GetProcessIdByName((const PTCHAR)_T("calc.exe")), (PVOID)0xFF740000, 4, &ulBuffer);
+	//PowerReadMemoryC(GetProcessIdByName((const PTCHAR)_T("calc.exe")), (PVOID)0xFF740000, 4, &ulBuffer);
 	//PRINTMSG(ulBuffer, "PowerReadMemory Buffer");
-	//PowerWriteMemory(GetProcessIdByName((const PTCHAR)_T("calc.exe")), (PVOID)0xFF7B3000, 4, &ulBuffer);
-	//PowerReadMemory(GetProcessIdByName((const PTCHAR)_T("calc.exe")), (PVOID)0xFF7B3000, 4, &ulBuffer);
+	//PowerWriteMemoryC(GetProcessIdByName((const PTCHAR)_T("calc.exe")), (PVOID)0xFF7B3000, 4, &ulBuffer);
+	//PowerReadMemoryC(GetProcessIdByName((const PTCHAR)_T("calc.exe")), (PVOID)0xFF7B3000, 4, &ulBuffer);
 	//PRINTMSG(ulBuffer, "PowerWriteMemory Buffer");
 	//PRINTMSG(POWER_SUCCESS, "Please press any key UnloadDriver");
 	//getchar();

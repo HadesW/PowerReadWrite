@@ -5,6 +5,8 @@
 #define ExpIsValidObjectEntry(Entry) \
     ( (Entry != NULL) && (Entry->LowValue != 0) && (Entry->HighValue != EX_ADDITIONAL_INFO_SIGNATURE) )
 
+#define MAX_LOCK_SIZE ((ULONG)(14 * PAGE_SIZE))
+
 typedef enum _ENUM_WINDOWS_VERSION
 {
 	WINDOWS_7 = 0x0610,
@@ -66,7 +68,7 @@ typedef struct _HANDLE_TABLE_ENTRY // Size=16
 			ULONG_PTR Unlocked : 1; // Size=8 Offset=0 BitOffset=0 BitCount=1
 			ULONG_PTR RefCnt : 16; // Size=8 Offset=0 BitOffset=1 BitCount=16
 			ULONG_PTR Attributes : 3; // Size=8 Offset=0 BitOffset=17 BitCount=3
-			ULONG_PTR ObjectPointerBits : 44; // Size=8 Offset=0 BitOffset=20 BitCount=44
+			ULONG_PTR ObjectPointerBits : 44;// Size=8 Offset=0 BitOffset=20 BitCount=44
 		};
 	};
 	union
@@ -163,5 +165,5 @@ MmCopyVirtualMemory(
 
 NTSTATUS PowerOpenProcess(__in POPENPROCESS_DATA pData);
 NTSTATUS PowerGrantAccess(__in PHANDLE_GRANT_ACCESS_DATA pData);
-NTSTATUS PowerReadVirtualMemory(__in PREAD_WRITE_MEMORY_DATA pData);
-NTSTATUS PowerWriteVirtualMemory(__in PREAD_WRITE_MEMORY_DATA pData);
+NTSTATUS PowerReadVirtualMemoryC(__in PREAD_WRITE_MEMORY_DATA pData);
+NTSTATUS PowerWriteVirtualMemoryC(__in PREAD_WRITE_MEMORY_DATA pData);

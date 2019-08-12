@@ -193,7 +193,7 @@ NTSTATUS PowerGrantAccess(__in PHANDLE_GRANT_ACCESS_DATA pData)
 	return status;
 }
 
-NTSTATUS PowerReadVirtualMemory(__in PREAD_WRITE_MEMORY_DATA pData)
+NTSTATUS PowerReadVirtualMemoryC(__in PREAD_WRITE_MEMORY_DATA pData)
 {
 	NTSTATUS status=STATUS_UNSUCCESSFUL;
 	SIZE_T NumberOfBytes=NULL;
@@ -222,7 +222,7 @@ NTSTATUS PowerReadVirtualMemory(__in PREAD_WRITE_MEMORY_DATA pData)
 	return status;
 }
 
-NTSTATUS PowerWriteVirtualMemory(__in PREAD_WRITE_MEMORY_DATA pData)
+NTSTATUS PowerWriteVirtualMemoryC(__in PREAD_WRITE_MEMORY_DATA pData)
 {
 	NTSTATUS status = STATUS_UNSUCCESSFUL;
 	SIZE_T NumberOfBytes = NULL;
@@ -247,6 +247,101 @@ NTSTATUS PowerWriteVirtualMemory(__in PREAD_WRITE_MEMORY_DATA pData)
 		if (pEprocess)
 			ObDereferenceObject(pEprocess);
 	}
+
+	return status;
+}
+
+NTSTATUS PowerReadVirtualMemoryB(__in PREAD_WRITE_MEMORY_DATA pData)
+{
+	NTSTATUS status = STATUS_UNSUCCESSFUL;
+	PEPROCESS pEprocess = NULL;
+	PMDL pMdl = NULL;
+	KAPC_STATE ApcState;
+	ULONG ulMdlSize;
+	PVOID pMappedAddress;
+	SIZE_T MaximumSize = MAX_LOCK_SIZE;
+	
+	if (pData->ulSize == 0)
+		return STATUS_SUCCESS;
+	if (pData->ulSize < PAGE_SIZE)
+		ulMdlSize = PAGE_SIZE;
+	else
+		ulMdlSize = pData->ulSize;
+
+	// check address
+	__try
+	{
+		ProbeForWrite(pData->pBuffer, pData->ulSize, sizeof(CHAR));
+		ProbeForRead(pData->ulPid, sizeof(ULONG), sizeof(ULONG));
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		return GetExceptionCode();
+	}
+
+	// read
+	status = PsLookupProcessByProcessId(pData->ulPid, &pEprocess);
+	if (NT_SUCCESS(status))
+	{
+		KeStackAttachProcess(pEprocess, &ApcState);
+		__try
+		{
+			pMdl = IoAllocateMdl(pData->pAddress, ulMdlSize, FALSE, FALSE, NULL);//Size
+			if (!pMdl)
+			{
+				KeUnstackDetachProcess(&ApcState);
+				status = STATUS_NOT_MAPPED_DATA;
+				return status;
+			}
+			MmProbeAndLockPages(pMdl, KernelMode, IoReadAccess);
+			pMappedAddress = MmMapLockedPagesSpecifyCache(pMdl, KernelMode, MmCached, NULL, FALSE, HighPagePriority);
+			RtlCopyMemory(pData->pBuffer, pMappedAddress, pData->ulSize);
+			MmUnmapLockedPages(pMappedAddress, pMdl);
+			MmUnlockPages(pMdl);
+			if (pMdl)
+				IoFreeMdl(pMdl);
+			KeUnstackDetachProcess(&ApcState);//complete
+		}
+		__except (EXCEPTION_EXECUTE_HANDLER)
+		{
+			KeUnstackDetachProcess(&ApcState);
+			if (pMappedAddress)
+				MmUnmapLockedPages(pMappedAddress, pMdl);
+			
+		}
+
+
+	}
+
+
+
+
+
+	return status;
+}
+
+NTSTATUS PowerWriteVirtualMemoryB(__in PREAD_WRITE_MEMORY_DATA pData)
+{
+	NTSTATUS status = STATUS_UNSUCCESSFUL;
+	PEPROCESS pEprocess = NULL;
+
+	// check address
+	__try
+	{
+		ProbeForRead(pData->pAddress, pData->ulSize, sizeof(CHAR));
+		ProbeForRead(pData->ulPid, sizeof(ULONG), sizeof(ULONG));
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		return GetExceptionCode();
+	}
+	// write
+	status = PsLookupProcessByProcessId(pData->ulPid, &pEprocess);
+
+
+
+
+
 
 	return status;
 }
