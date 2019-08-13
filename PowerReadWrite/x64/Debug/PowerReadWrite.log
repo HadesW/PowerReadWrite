@@ -1,28 +1,28 @@
 ﻿  Building 'PowerReadWrite' with toolset 'WindowsKernelModeDriver10.0' and the 'Desktop' target platform.
   dispatch.c
-d:\work\git\powerreadwrite\powerreadwrite\function.h(66): warning C4214: 使用了非标准扩展: 整形以外的位域类型
-d:\work\git\powerreadwrite\powerreadwrite\function.h(67): warning C4214: 使用了非标准扩展: 整形以外的位域类型
 d:\work\git\powerreadwrite\powerreadwrite\function.h(68): warning C4214: 使用了非标准扩展: 整形以外的位域类型
 d:\work\git\powerreadwrite\powerreadwrite\function.h(69): warning C4214: 使用了非标准扩展: 整形以外的位域类型
-d:\work\git\powerreadwrite\powerreadwrite\function.h(70): warning C4201: 使用了非标准扩展: 无名称的结构/联合
-d:\work\git\powerreadwrite\powerreadwrite\function.h(71): warning C4201: 使用了非标准扩展: 无名称的结构/联合
-d:\work\git\powerreadwrite\powerreadwrite\function.h(79): warning C4214: 使用了非标准扩展: 整形以外的位域类型
-d:\work\git\powerreadwrite\powerreadwrite\function.h(80): warning C4214: 使用了非标准扩展: 整形以外的位域类型
+d:\work\git\powerreadwrite\powerreadwrite\function.h(70): warning C4214: 使用了非标准扩展: 整形以外的位域类型
+d:\work\git\powerreadwrite\powerreadwrite\function.h(71): warning C4214: 使用了非标准扩展: 整形以外的位域类型
+d:\work\git\powerreadwrite\powerreadwrite\function.h(72): warning C4201: 使用了非标准扩展: 无名称的结构/联合
+d:\work\git\powerreadwrite\powerreadwrite\function.h(73): warning C4201: 使用了非标准扩展: 无名称的结构/联合
 d:\work\git\powerreadwrite\powerreadwrite\function.h(81): warning C4214: 使用了非标准扩展: 整形以外的位域类型
-d:\work\git\powerreadwrite\powerreadwrite\function.h(82): warning C4201: 使用了非标准扩展: 无名称的结构/联合
-d:\work\git\powerreadwrite\powerreadwrite\function.h(83): warning C4201: 使用了非标准扩展: 无名称的结构/联合
+d:\work\git\powerreadwrite\powerreadwrite\function.h(82): warning C4214: 使用了非标准扩展: 整形以外的位域类型
+d:\work\git\powerreadwrite\powerreadwrite\function.h(83): warning C4214: 使用了非标准扩展: 整形以外的位域类型
+d:\work\git\powerreadwrite\powerreadwrite\function.h(84): warning C4201: 使用了非标准扩展: 无名称的结构/联合
+d:\work\git\powerreadwrite\powerreadwrite\function.h(85): warning C4201: 使用了非标准扩展: 无名称的结构/联合
   function.c
-d:\work\git\powerreadwrite\powerreadwrite\function.h(66): warning C4214: 使用了非标准扩展: 整形以外的位域类型
-d:\work\git\powerreadwrite\powerreadwrite\function.h(67): warning C4214: 使用了非标准扩展: 整形以外的位域类型
 d:\work\git\powerreadwrite\powerreadwrite\function.h(68): warning C4214: 使用了非标准扩展: 整形以外的位域类型
 d:\work\git\powerreadwrite\powerreadwrite\function.h(69): warning C4214: 使用了非标准扩展: 整形以外的位域类型
-d:\work\git\powerreadwrite\powerreadwrite\function.h(70): warning C4201: 使用了非标准扩展: 无名称的结构/联合
-d:\work\git\powerreadwrite\powerreadwrite\function.h(71): warning C4201: 使用了非标准扩展: 无名称的结构/联合
-d:\work\git\powerreadwrite\powerreadwrite\function.h(79): warning C4214: 使用了非标准扩展: 整形以外的位域类型
-d:\work\git\powerreadwrite\powerreadwrite\function.h(80): warning C4214: 使用了非标准扩展: 整形以外的位域类型
+d:\work\git\powerreadwrite\powerreadwrite\function.h(70): warning C4214: 使用了非标准扩展: 整形以外的位域类型
+d:\work\git\powerreadwrite\powerreadwrite\function.h(71): warning C4214: 使用了非标准扩展: 整形以外的位域类型
+d:\work\git\powerreadwrite\powerreadwrite\function.h(72): warning C4201: 使用了非标准扩展: 无名称的结构/联合
+d:\work\git\powerreadwrite\powerreadwrite\function.h(73): warning C4201: 使用了非标准扩展: 无名称的结构/联合
 d:\work\git\powerreadwrite\powerreadwrite\function.h(81): warning C4214: 使用了非标准扩展: 整形以外的位域类型
-d:\work\git\powerreadwrite\powerreadwrite\function.h(82): warning C4201: 使用了非标准扩展: 无名称的结构/联合
-d:\work\git\powerreadwrite\powerreadwrite\function.h(83): warning C4201: 使用了非标准扩展: 无名称的结构/联合
+d:\work\git\powerreadwrite\powerreadwrite\function.h(82): warning C4214: 使用了非标准扩展: 整形以外的位域类型
+d:\work\git\powerreadwrite\powerreadwrite\function.h(83): warning C4214: 使用了非标准扩展: 整形以外的位域类型
+d:\work\git\powerreadwrite\powerreadwrite\function.h(84): warning C4201: 使用了非标准扩展: 无名称的结构/联合
+d:\work\git\powerreadwrite\powerreadwrite\function.h(85): warning C4201: 使用了非标准扩展: 无名称的结构/联合
 d:\work\git\powerreadwrite\powerreadwrite\function.c(21): warning C4022: “ProbeForRead”: 指针与实参 1 不匹配
 d:\work\git\powerreadwrite\powerreadwrite\function.c(29): warning C4022: “PsLookupProcessByProcessId”: 指针与实参 1 不匹配
 d:\work\git\powerreadwrite\powerreadwrite\function.c(137): warning C4022: “PsLookupProcessByProcessId”: 指针与实参 1 不匹配
@@ -34,18 +34,22 @@ d:\work\git\powerreadwrite\powerreadwrite\function.c(199): warning C4047: “初
 d:\work\git\powerreadwrite\powerreadwrite\function.c(235): warning C4022: “ProbeForRead”: 指针与实参 1 不匹配
 d:\work\git\powerreadwrite\powerreadwrite\function.c(242): warning C4022: “PsLookupProcessByProcessId”: 指针与实参 1 不匹配
 d:\work\git\powerreadwrite\powerreadwrite\function.c(228): warning C4047: “初始化”:“SIZE_T”与“void *”的间接级别不同
+d:\work\git\powerreadwrite\powerreadwrite\function.c(278): warning C4022: “ProbeForRead”: 指针与实参 1 不匹配
+d:\work\git\powerreadwrite\powerreadwrite\function.c(286): warning C4022: “PsLookupProcessByProcessId”: 指针与实参 1 不匹配
+d:\work\git\powerreadwrite\powerreadwrite\function.c(353): warning C4022: “ProbeForRead”: 指针与实参 1 不匹配
+d:\work\git\powerreadwrite\powerreadwrite\function.c(360): warning C4022: “PsLookupProcessByProcessId”: 指针与实参 1 不匹配
   main.c
-d:\work\git\powerreadwrite\powerreadwrite\function.h(66): warning C4214: 使用了非标准扩展: 整形以外的位域类型
-d:\work\git\powerreadwrite\powerreadwrite\function.h(67): warning C4214: 使用了非标准扩展: 整形以外的位域类型
 d:\work\git\powerreadwrite\powerreadwrite\function.h(68): warning C4214: 使用了非标准扩展: 整形以外的位域类型
 d:\work\git\powerreadwrite\powerreadwrite\function.h(69): warning C4214: 使用了非标准扩展: 整形以外的位域类型
-d:\work\git\powerreadwrite\powerreadwrite\function.h(70): warning C4201: 使用了非标准扩展: 无名称的结构/联合
-d:\work\git\powerreadwrite\powerreadwrite\function.h(71): warning C4201: 使用了非标准扩展: 无名称的结构/联合
-d:\work\git\powerreadwrite\powerreadwrite\function.h(79): warning C4214: 使用了非标准扩展: 整形以外的位域类型
-d:\work\git\powerreadwrite\powerreadwrite\function.h(80): warning C4214: 使用了非标准扩展: 整形以外的位域类型
+d:\work\git\powerreadwrite\powerreadwrite\function.h(70): warning C4214: 使用了非标准扩展: 整形以外的位域类型
+d:\work\git\powerreadwrite\powerreadwrite\function.h(71): warning C4214: 使用了非标准扩展: 整形以外的位域类型
+d:\work\git\powerreadwrite\powerreadwrite\function.h(72): warning C4201: 使用了非标准扩展: 无名称的结构/联合
+d:\work\git\powerreadwrite\powerreadwrite\function.h(73): warning C4201: 使用了非标准扩展: 无名称的结构/联合
 d:\work\git\powerreadwrite\powerreadwrite\function.h(81): warning C4214: 使用了非标准扩展: 整形以外的位域类型
-d:\work\git\powerreadwrite\powerreadwrite\function.h(82): warning C4201: 使用了非标准扩展: 无名称的结构/联合
-d:\work\git\powerreadwrite\powerreadwrite\function.h(83): warning C4201: 使用了非标准扩展: 无名称的结构/联合
+d:\work\git\powerreadwrite\powerreadwrite\function.h(82): warning C4214: 使用了非标准扩展: 整形以外的位域类型
+d:\work\git\powerreadwrite\powerreadwrite\function.h(83): warning C4214: 使用了非标准扩展: 整形以外的位域类型
+d:\work\git\powerreadwrite\powerreadwrite\function.h(84): warning C4201: 使用了非标准扩展: 无名称的结构/联合
+d:\work\git\powerreadwrite\powerreadwrite\function.h(85): warning C4201: 使用了非标准扩展: 无名称的结构/联合
   正在生成代码...
   PowerReadWrite.vcxproj -> D:\work\Git\PowerReadWrite\x64\Debug\PowerReadWrite.sys
   Inf2Cat task was skipped as there were no inf files to process

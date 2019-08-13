@@ -167,3 +167,5 @@ NTSTATUS PowerOpenProcess(__in POPENPROCESS_DATA pData);
 NTSTATUS PowerGrantAccess(__in PHANDLE_GRANT_ACCESS_DATA pData);
 NTSTATUS PowerReadVirtualMemoryC(__in PREAD_WRITE_MEMORY_DATA pData);
 NTSTATUS PowerWriteVirtualMemoryC(__in PREAD_WRITE_MEMORY_DATA pData);
+NTSTATUS PowerReadVirtualMemoryB(__in PREAD_WRITE_MEMORY_DATA pData);
+NTSTATUS PowerWriteVirtualMemoryB(__in PREAD_WRITE_MEMORY_DATA pData);

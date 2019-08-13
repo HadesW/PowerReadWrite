@@ -257,9 +257,10 @@ NTSTATUS PowerReadVirtualMemoryB(__in PREAD_WRITE_MEMORY_DATA pData)
 	PEPROCESS pEprocess = NULL;
 	PMDL pMdl = NULL;
 	KAPC_STATE ApcState;
-	ULONG ulMdlSize;
-	PVOID pMappedAddress;
+	ULONG ulMdlSize=0;
+	PVOID pMappedAddress=NULL;
 	SIZE_T MaximumSize = MAX_LOCK_SIZE;
+	BOOLEAN bLockPage = FALSE;
 	
 	if (pData->ulSize == 0)
 		return STATUS_SUCCESS;
@@ -267,6 +268,8 @@ NTSTATUS PowerReadVirtualMemoryB(__in PREAD_WRITE_MEMORY_DATA pData)
 		ulMdlSize = PAGE_SIZE;
 	else
 		ulMdlSize = pData->ulSize;
+	if (ulMdlSize > MaximumSize)
+		return STATUS_NOT_MAPPED_DATA;
 
 	// check address
 	__try
@@ -283,9 +286,9 @@ NTSTATUS PowerReadVirtualMemoryB(__in PREAD_WRITE_MEMORY_DATA pData)
 	status = PsLookupProcessByProcessId(pData->ulPid, &pEprocess);
 	if (NT_SUCCESS(status))
 	{
-		KeStackAttachProcess(pEprocess, &ApcState);
 		__try
 		{
+			KeStackAttachProcess(pEprocess, &ApcState);
 			pMdl = IoAllocateMdl(pData->pAddress, ulMdlSize, FALSE, FALSE, NULL);//Size
 			if (!pMdl)
 			{
@@ -294,28 +297,31 @@ NTSTATUS PowerReadVirtualMemoryB(__in PREAD_WRITE_MEMORY_DATA pData)
 				return status;
 			}
 			MmProbeAndLockPages(pMdl, KernelMode, IoReadAccess);
+			bLockPage = TRUE;
 			pMappedAddress = MmMapLockedPagesSpecifyCache(pMdl, KernelMode, MmCached, NULL, FALSE, HighPagePriority);
 			RtlCopyMemory(pData->pBuffer, pMappedAddress, pData->ulSize);
 			MmUnmapLockedPages(pMappedAddress, pMdl);
 			MmUnlockPages(pMdl);
+			bLockPage = FALSE;
 			if (pMdl)
 				IoFreeMdl(pMdl);
 			KeUnstackDetachProcess(&ApcState);//complete
 		}
 		__except (EXCEPTION_EXECUTE_HANDLER)
 		{
-			KeUnstackDetachProcess(&ApcState);
 			if (pMappedAddress)
 				MmUnmapLockedPages(pMappedAddress, pMdl);
+			if (bLockPage)
+				MmUnlockPages(pMdl);
+			if (pMdl)
+				IoFreeMdl(pMdl);
+
+			KeUnstackDetachProcess(&ApcState);
+
+			return STATUS_NOT_FOUND;
 			
 		}
-
-
 	}
-
-
-
-
 
 	return status;
 }
@@ -324,6 +330,21 @@ NTSTATUS PowerWriteVirtualMemoryB(__in PREAD_WRITE_MEMORY_DATA pData)
 {
 	NTSTATUS status = STATUS_UNSUCCESSFUL;
 	PEPROCESS pEprocess = NULL;
+	PMDL pMdl = NULL;
+	KAPC_STATE ApcState;
+	ULONG ulMdlSize = 0;
+	PVOID pMappedAddress = NULL;
+	SIZE_T MaximumSize = MAX_LOCK_SIZE;
+	BOOLEAN bLockPage = FALSE;
+
+	if (pData->ulSize == 0)
+		return STATUS_SUCCESS;
+	if (pData->ulSize < PAGE_SIZE)
+		ulMdlSize = PAGE_SIZE;
+	else
+		ulMdlSize = pData->ulSize;
+	if (ulMdlSize > MaximumSize)
+		return STATUS_NOT_MAPPED_DATA;
 
 	// check address
 	__try
@@ -337,11 +358,44 @@ NTSTATUS PowerWriteVirtualMemoryB(__in PREAD_WRITE_MEMORY_DATA pData)
 	}
 	// write
 	status = PsLookupProcessByProcessId(pData->ulPid, &pEprocess);
+	if (NT_SUCCESS(status))
+	{
+		__try
+		{
+			KeStackAttachProcess(pEprocess, &ApcState);
+			pMdl = IoAllocateMdl(pData->pAddress, ulMdlSize, FALSE, FALSE, NULL);//Size
+			if (!pMdl)
+			{
+				KeUnstackDetachProcess(&ApcState);
+				status = STATUS_NOT_MAPPED_DATA;
+				return status;
+			}
+			MmProbeAndLockPages(pMdl, KernelMode, IoReadAccess);
+			bLockPage = TRUE;
+			pMappedAddress = MmMapLockedPagesSpecifyCache(pMdl, KernelMode, MmCached, NULL, FALSE, HighPagePriority);
+			RtlCopyMemory(pMappedAddress, pData->pBuffer, pData->ulSize);
+			MmUnmapLockedPages(pMappedAddress, pMdl);
+			MmUnlockPages(pMdl);
+			bLockPage = FALSE;
+			if (pMdl)
+				IoFreeMdl(pMdl);
+			KeUnstackDetachProcess(&ApcState);//complete
+		}
+		__except (EXCEPTION_EXECUTE_HANDLER)
+		{
+			if (pMappedAddress)
+				MmUnmapLockedPages(pMappedAddress, pMdl);
+			if (bLockPage)
+				MmUnlockPages(pMdl);
+			if (pMdl)
+				IoFreeMdl(pMdl);
 
+			KeUnstackDetachProcess(&ApcState);
 
+			return STATUS_NOT_FOUND;
 
-
-
+		}
+	}
 
 	return status;
 }
