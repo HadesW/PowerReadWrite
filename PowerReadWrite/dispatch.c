@@ -68,6 +68,14 @@ NTSTATUS DeviceControlDispatch(
 			status = STATUS_INFO_LENGTH_MISMATCH;
 	}
 	break;
+	case IOCTL_POWER_READ_MEMORY_B:
+	{
+		if (ulInputSize >= sizeof(READ_WRITE_MEMORY_DATA) && pIoBuffer)
+			status = PowerReadVirtualMemoryB((PREAD_WRITE_MEMORY_DATA)pIoBuffer);
+		else
+			status = STATUS_INFO_LENGTH_MISMATCH;
+	}
+	break;
 	case IOCTL_POWER_WRITE_MEMORY_B:
 	{
 		if (ulInputSize >= sizeof(READ_WRITE_MEMORY_DATA) && pIoBuffer)
