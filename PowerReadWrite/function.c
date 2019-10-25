@@ -1,9 +1,10 @@
 #include "function.h"
 
-
+// global variable
 OPENPROCESS_DATA g_stOpenProcessData = { 0 };
 HANDLE g_hProcess = NULL;
 
+// Kernel mode OpenProcess 
 NTSTATUS PowerOpenProcess(__in POPENPROCESS_DATA pData)
 {
 	LOGDEBUG(PowerOpenProcess, "PowerOpenProcess Called");
@@ -54,7 +55,7 @@ NTSTATUS PowerOpenProcess(__in POPENPROCESS_DATA pData)
 	return status;
 }
 
-
+// GrantAccess CallBack Windows7
 BOOLEAN HandleCallbackWin7(
 	IN PHANDLE_TABLE_ENTRY HandleTableEntry,
 	IN HANDLE Handle,
@@ -87,6 +88,7 @@ BOOLEAN HandleCallbackWin7(
 	return bResult;
 }
 
+// GrantAccess CallBack Windwos10
 BOOLEAN HandleCallbackWin10(
 	IN PHANDLE_TABLE HandleTable,
 	IN PHANDLE_TABLE_ENTRY HandleTableEntry,
@@ -122,7 +124,7 @@ BOOLEAN HandleCallbackWin10(
 	return bResult;
 }
 
-
+// GrantAccess Process Handle
 NTSTATUS PowerGrantAccess(__in PHANDLE_GRANT_ACCESS_DATA pData)
 {
 	LOGDEBUG(PowerGrantAccess, "PowerGrantAccess Called");
@@ -193,6 +195,7 @@ NTSTATUS PowerGrantAccess(__in PHANDLE_GRANT_ACCESS_DATA pData)
 	return status;
 }
 
+// MMCPY
 NTSTATUS PowerReadVirtualMemoryC(__in PREAD_WRITE_MEMORY_DATA pData)
 {
 	NTSTATUS status=STATUS_UNSUCCESSFUL;
@@ -222,6 +225,7 @@ NTSTATUS PowerReadVirtualMemoryC(__in PREAD_WRITE_MEMORY_DATA pData)
 	return status;
 }
 
+// MMCPY
 NTSTATUS PowerWriteVirtualMemoryC(__in PREAD_WRITE_MEMORY_DATA pData)
 {
 	NTSTATUS status = STATUS_UNSUCCESSFUL;
@@ -251,6 +255,7 @@ NTSTATUS PowerWriteVirtualMemoryC(__in PREAD_WRITE_MEMORY_DATA pData)
 	return status;
 }
 
+// MDL
 NTSTATUS PowerReadVirtualMemoryB(__in PREAD_WRITE_MEMORY_DATA pData)
 {
 	NTSTATUS status = STATUS_UNSUCCESSFUL;
@@ -326,6 +331,7 @@ NTSTATUS PowerReadVirtualMemoryB(__in PREAD_WRITE_MEMORY_DATA pData)
 	return status;
 }
 
+// MDL
 NTSTATUS PowerWriteVirtualMemoryB(__in PREAD_WRITE_MEMORY_DATA pData)
 {
 	NTSTATUS status = STATUS_UNSUCCESSFUL;

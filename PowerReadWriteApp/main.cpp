@@ -72,19 +72,7 @@ int main()
 		PRINTMSG(POWER_SUCCESS, "OpenDevice Success");
 	}
 	
-
-	// 填充结构体
-	HANDLE hProcess = NULL;
-	SET_PROCESS_DATA stSetProcessData = { 0 };
-	stSetProcessData.ulPid = GetProcessIdByName((const PTCHAR)_T("calc.exe"));
-	stSetProcessData.ulAccess = PROCESS_QUERY_LIMITED_INFORMATION;
-	stSetProcessData.pHandleProcess = &hProcess;
-
-	PRINTMSG(stSetProcessData.ulPid, "SetProcess Pid");
-	PRINTMSG(hProcess, "SetProcess Handle");
-	PRINTMSG(stSetProcessData.ulAccess, "SetProcess Access");
-
-	////这里是另一种读写方式，用的话直接去掉注释
+	// Method1.MMCPY
 	//ULONG ulBuffer;
 	//PowerReadMemoryC(GetProcessIdByName((const PTCHAR)_T("calc.exe")), (PVOID)0xFF740000, 4, &ulBuffer);
 	//PRINTMSG(ulBuffer, "PowerReadMemory Buffer");
@@ -98,6 +86,17 @@ int main()
 	//getchar();
 	//return 0;
 
+	// Method.2.GRANT_ACCESS Handle
+	// 填充结构体
+	HANDLE hProcess = NULL;
+	SET_PROCESS_DATA stSetProcessData = { 0 };
+	stSetProcessData.ulPid = GetProcessIdByName((const PTCHAR)_T("calc.exe"));
+	stSetProcessData.ulAccess = PROCESS_QUERY_LIMITED_INFORMATION;
+	stSetProcessData.pHandleProcess = &hProcess;
+
+	PRINTMSG(stSetProcessData.ulPid, "SetProcess Pid");
+	PRINTMSG(hProcess, "SetProcess Handle");
+	PRINTMSG(stSetProcessData.ulAccess, "SetProcess Access");
 	// 发送数据
 	DWORD dwRealRetByte = 0;
 	IoCtrlDriver(IOCTL_POWER_SET_PROCESS, &stSetProcessData, sizeof(stSetProcessData), &stSetProcessData, sizeof(stSetProcessData), &dwRealRetByte);
@@ -111,7 +110,7 @@ int main()
 	stHandleAccessData.ulAccess = PROCESS_ALL_ACCESS;
 	IoCtrlDriver(IOCTL_POWER_GRANT_ACCESS, &stHandleAccessData, sizeof(stHandleAccessData), &stHandleAccessData, sizeof(stHandleAccessData), &dwRealRetByte);
 
-
+	// 读写数据
 	HANDLE handle = hProcess;
 
 	ULONG return_len;
@@ -140,12 +139,17 @@ int main()
 	printf("[Power]->[0x%p]->CommandLine: %ws", POWER_SUCCESS, buffer);
 	printf("\n");
 
-
 	PRINTMSG(POWER_SUCCESS, "Please press any key UnloadDriver");
 	getchar();
 	CloseHandle(handle);
 	CloseDevice();
 	UnloadDriver();
 	getchar();
+
+
+
+
+
+
 	return 0;
 }
